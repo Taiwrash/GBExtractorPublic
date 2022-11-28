@@ -19,6 +19,12 @@ import string
 from midiutil import MIDIFile
 
 class MIDISection:
+  """
+    1. This is a class called MIDISection, which is used to store the MIDI data for each section.
+    2. The label is the section title, the associatedMidiID is the ID of the section, the bHasMIDI is a boolean indicating whether the section has MIDI data, the midiData is the MIDI data in byte format, and the recordNumber is the record number of the section, which is used for sorting.
+    3. The __init__ function is the initialization function, which is called when the object is created.
+    4. The __lt__ function is used to compare the recordNumber of two objects, which is used for sorting.
+  """
   def __init__(self, label, associatedMidiID, recordNumber):
     self.label = label
     self.associatedMidiID = associatedMidiID
@@ -27,6 +33,12 @@ class MIDISection:
     self.recordNumber = recordNumber
 
 class MIDIEvent:
+  """
+  1. The class is called MIDIEvent.
+  2. The __init__ function is called when a new MIDIEvent is created.
+  3. The __init__ function takes four parameters, which are assigned to the instance variables time, note, velocity and unknown.
+  4. The trackUsed variable is initialized to 0, which means that the event has not yet been assigned to a track.
+  """
   def __init__(self, time, velocity, note, unknown):
     self.time = time
     self.note = note
@@ -34,24 +46,56 @@ class MIDIEvent:
     self.trackUsed = 0
    
 class TwoPartEvent:
+  """
+  1. The TwoPartEvent class is created that has three attributes: time, valueA, and valueB.
+  2. The __init__ method is a constructor that initializes the attributes to the values passed in as parameters.
+  3. The constructor is called whenever an object is created from the TwoPartEvent class.
+  """
   def __init__(self, time, valueA, valueB):
     self.time = time
     self.valueA = valueA
     self.valueB = valueB
          
 def quitWithError(errorString):
+  """
+  1. This code checks to see if the Pythonista module is available
+  2. if the module is available, it imports the module
+  3. if the module is not available, it sets the bIsPythonista variable to False
+  4. the quitWithError function is defined to print an error message to the console and exit the program
+  """
   print(errorString)
   if bIsPythonista:
     console.hud_alert(errorString, 'error', 2)
   sys.exit(1)
   
 def createKey(partA, partB):
+  """
+  1. The function is called "createKey" and takes two parameters "partA" and "partB".
+  2. The function returns a string that is built of "partA" and "partB" separated by a colon.
+  3. The string is built by using the "format" function. Inside the format function we are using two placeholders "{}" - one for "partA" and one for "partB". After the format function we are using the "str" function to convert the parameters to a string.
+  """
   return "{}:{}".format(str(partA), str(partB))
 
 def debugPrint(stringToPrint):
+  """
+  1. Define a function named debugPrint(). All functions are defined using the def keyword.
+  2. The function takes a string as input.
+  3. The function checks if bDebug is true.
+  4. If bDebug is true, it prints the string passed to it.
+  5. If bDebug is false, it does nothing.
+  """
   if(bDebug): print(stringToPrint)
   
 def readTwoPartEvent(bitStream):
+  """
+  1. Read 3 bytes and throw it away. We don't need it.
+  2. Read the eventTime, which is a 32-bit unsigned integer in little-endian format.
+  3. Read 3 bytes and throw it away. We don't need it.
+  4. Read the eventValueA, which is a 8-='bit unsigned integer in little-endian format.
+  5. Read the eventValueB, which is a 8-bit unsigned integer in little-endian format.
+  6. Read 3 bytes and throw it away. We don't need it.
+  7. Return a TwoPartEvent object. 
+  """
   bitStream.read("bytes:3")
   eventTime = bitStream.read("uintle:32")
   bitStream.read("bytes:3")
@@ -62,6 +106,23 @@ def readTwoPartEvent(bitStream):
   return TwoPartEvent(eventTime, eventValueA, eventValueB)
 
 def dumphex(dataLength, s):
+  """
+  1. dataLength is the length of the data you want to dump.
+  2. s is a SeekableByteStream object that contains the data to be dumped.
+  3. The first line of the function stores the current position of the SeekableByteStream object
+  4. The next line declares a variable to be used as a counter for the number of bytes dumped.
+  5. The next line declares a variable to store the output of the function.
+  6. The next line declares a loop that will run until the number of bytes dumped equals the data length.
+  7. The next line checks to see if the number of bytes dumped is divisible by 16. If it is, it inserts a newline.
+  8. The next line checks to see if the number of bytes dumped is divisible by 8. If it is, it inserts a space.
+  9. The next line reads a byte from the SeekableByteStream and increments the byte counter.
+  10. The next line converts the byte to a hexadecimal string.
+  11. The next line checks to see if the length of the hexadecimal string is 1. If it is, it adds a 0 to the start of the string.
+  12. The next line adds the hexadecimal string to the hex dump variable.
+  13. The next line checks to see if the number of bytes dumped is divisible by 4. If it is, it adds a space.
+  14. The next line adds a space to the end of the hex dump variable.
+  15. The next line returns the hex dump variable.
+  """
   originalPosition = s.pos
   byteCounter = 0
   hexDump = ""
@@ -70,7 +131,27 @@ def dumphex(dataLength, s):
     asciiString = ""
     
     bytesToRead = min(16, dataLength - lineOffset)
-    
+
+    # 1. The first line of code is a Python comment, which is denoted by the "#" symbol. Comments are ignored by the program, but they are very useful to explain what the code does. 
+    # 2. The second line of code is a function definition. A function is a piece of code that can be reused throughout the program. The function definition is followed by the function body (indented by 4 spaces).
+    # 3. The third line of code is a string. A string is a sequence of characters enclosed in double quotes. 
+    # 4. The fourth line of code is a list. A list is a sequence of values enclosed in square brackets. The values in a list are separated by commas.
+    # 5. The fifth line of code is a dictionary. A dictionary is a sequence of key-value pairs enclosed in curly brackets. The key-value pairs in a dictionary are separated by commas, and each key-value pair is separated by a colon. 
+    # 6. The sixth line of code is a tuple. A tuple is a sequence of values enclosed in parentheses. The values in a tuple are separated by commas.
+    # 7. The seventh line of code is a variable assignment. The variable is on the left of the equals sign, and the value of the variable is on the right of the equals sign. The value of the variable is determined when the code is executed. 
+    # 8. The eighth line of code is an integer. An integer is a whole number (e.g., 1, 2, 3, 4, 5, etc.).
+    # 9. The ninth line of code is a float. A float is a number with a decimal point (e.g., 1.0, 2.0, 3.0, 4.0, 5.0, etc.).
+    # 10. The tenth line of code is a boolean. A boolean is either True or False.
+    # 11. The eleventh line of code is a for loop. A for loop iterates over a sequence of values. In this case, the sequence of values is the list of bytes in the string.
+    # 12. The twelfth line of code is an if statement. An if statement checks if a condition is true, and if it is true, then the code in the if statement is executed. In this case, the condition is that the byte is in the list of bytes that can be printed as ASCII.
+    # 13. The thirteenth line of code is an else statement. An else statement is executed if the condition of the if statement is false. In this case, the condition is that the byte is not in the list of bytes that can be printed as ASCII.
+    # 14. The fourteenth line of code is the end of the for loop. The code after this line will be executed after the for loop is finished.
+    # 15. The fifteenth line of code is the end of the function definition. The code after this line will be executed after the function is finished.
+    # 16. The sixteenth line of code is a variable assignment. The variable is on the left of the equals sign, and the value of the variable is on the right of the equals sign. The value of the variable is determined when the code is executed.
+    # 17. The seventeenth line of code is a function call. A function call is a piece of code that calls a function. In this case, the function call is to the "print" function, which prints the value of the variable to the console.
+    # 18. The eighteenth line of code is a variable assignment. The variable is on the left of the equals sign, and the value of the variable is on the right of the equals sign. The value of the variable is determined when the code is executed.
+    # 19. The nineteenth line of code is a function call. A function call is a piece of code that calls a function. In this case, the function call is to the "time" function, which prints the current time to the console.
+    # 20. The twentieth line of code is a variable assignment. The variable is on the left of the equals sign, and the value of the variable is on the right of the equals sign. The value of the variable is determined when the code is executed.
     for byte in s.readlist("{}*uint:8".format(bytesToRead)):      
       if(byte in canBePrinted):
         asciiString += chr(byte)
